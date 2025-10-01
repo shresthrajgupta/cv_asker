@@ -1,6 +1,6 @@
 env
+server/staticfiles
 
-server/db.sqlite3
 **/.env
 
 # Logs

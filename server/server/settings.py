@@ -1,21 +1,35 @@
 import os
+import dotenv
 from pathlib import Path
 from datetime import timedelta
 
+if os.environ.get("RENDER") == "true":
+    print("Running on Render - using environment variables from Render dashboard")
+else:
+    dotenv.read_dotenv(dotenv="./.env")
+    print("Running locally - using .env file")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-# Frontend base URL for emails
-FRONTEND_URL = 'http://localhost:5173'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ.get('DEBUG_MODE') == 'true' else False
 
-ALLOWED_HOSTS = []
+# fmt: off
 
+# Frontend base URL for emails
+FRONTEND_URL = 'http://localhost:5173' if DEBUG == True else os.environ.get('FRONTEND_URL')
+
+# fmt: on
+
+if DEBUG:
+    ALLOWED_HOSTS = ["*"]   # allow everything in development
+else:
+    ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -41,6 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -97,9 +113,11 @@ TIME_ZONE = 'Asia/Kolkata'
 USE_I18N = True
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(ROOT_DIR, "client/dist")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -175,5 +193,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_TLS = True
 
-# CORS_ALLOWED_ORIGINS = []
-CORS_ALLOWED_ALL_ORIGINS = True
+if DEBUG == True:
+    CORS_ALLOWED_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = []

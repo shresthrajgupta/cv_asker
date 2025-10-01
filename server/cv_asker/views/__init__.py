@@ -6,6 +6,7 @@ from .update_user_question_history_view import AnswerQuestionAPIView
 from .get_questions_view import GetQuestionsAPIView
 from .login_token_view import CustomTokenObtainPairView
 from .refresh_token_view import CookieTokenRefreshView
+from .react_view import FrontendAppView
 
 __all__ = [
     'PDFUploadView',
@@ -16,4 +17,5 @@ __all__ = [
     'GetQuestionsAPIView',
     'CustomTokenObtainPairView',
     'CookieTokenRefreshView',
+    'FrontendAppView',
 ]
