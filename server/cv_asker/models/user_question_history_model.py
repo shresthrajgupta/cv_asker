@@ -22,12 +22,6 @@ class UserQuestionHistory(models.Model):
     def __str__(self):
         return f'History: {self.user.email.split('@')[0]}, Ques ID {self.question.id}'
 
-    def can_be_asked_again(self):
-        one_month = 30
-        now = timezone.now()
-        delta = now - self.last_asked_at
-        return (not self.answered_correctly) or (delta.days > one_month)
-
     class Meta:
         verbose_name = "Question History"               # singular
-        verbose_name_plural = "Question Histories"       # custom plural
+        verbose_name_plural = "Question Histories"      # custom plural

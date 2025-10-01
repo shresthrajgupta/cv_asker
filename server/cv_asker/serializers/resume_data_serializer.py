@@ -24,10 +24,14 @@ class UserProfileCreateSerializer(serializers.ModelSerializer):
         skills_data = validated_data.pop("skills")
         user = self.context["request"].user
 
+        existing_profile = UserProfile.objects.filter(user=user).first()
+        if existing_profile:
+            existing_profile.delete()
+
         profile = UserProfile.objects.create(user=user, **validated_data)
 
         for s in skills_data:
-            skill_obj, _ = Skill.objects.get_or_create(name=s["name"], defaults={"proficiency": s["proficiency"]})
+            skill_obj, _ = Skill.objects.get_or_create(name=s["name"], proficiency=s["proficiency"], defaults={"proficiency": s["proficiency"]})
             if skill_obj.proficiency != s["proficiency"]:
                 skill_obj.proficiency = s["proficiency"]
                 skill_obj.save()

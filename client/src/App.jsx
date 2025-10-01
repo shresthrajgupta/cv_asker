@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import { ToastContainer, Slide } from 'react-toastify';
+import { useSelector } from "react-redux";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Header from './components/Header';
+
+import { backgroundColorTheme, textColorTheme } from './utils/themeUtil.js'
+
+const App = () => {
+  const location = useLocation();
+
+  const [height, setHeight] = useState(0);
+  const [isAuthPage, setIsAuthPage] = useState(true);
+
+  const { themeMode } = useSelector((state) => state.theme);
+
+  useEffect(() => {
+    setHeight(window.innerHeight);
+
+    setIsAuthPage(location.pathname === '/' || location.pathname === '/login' || location.pathname === '/signup' || location.pathname.startsWith('/activate'));
+  }, [location.pathname]);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <main className={`${backgroundColorTheme[themeMode]} ${textColorTheme[themeMode]}`} style={{ height: height }}>
+        {!isAuthPage && <Header />}
+        <div style={{ height: isAuthPage ? height : height - 56, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          < Outlet />
+        </div>
+      </main>
+      <ToastContainer position="top-center" transition={Slide} hideProgressBar autoClose={1500} />
     </>
   )
-}
+};
 
-export default App
+export default App;

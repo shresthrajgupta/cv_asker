@@ -4,6 +4,8 @@ from .change_proficiency_view import UpdateSkillProficiencyAPIView
 from .store_question_view import GenerateQuestionsView
 from .update_user_question_history_view import AnswerQuestionAPIView
 from .get_questions_view import GetQuestionsAPIView
+from .login_token_view import CustomTokenObtainPairView
+from .refresh_token_view import CookieTokenRefreshView
 
 __all__ = [
     'PDFUploadView',
@@ -12,4 +14,6 @@ __all__ = [
     'GenerateQuestionsView',
     'AnswerQuestionAPIView',
     'GetQuestionsAPIView',
+    'CustomTokenObtainPairView',
+    'CookieTokenRefreshView',
 ]

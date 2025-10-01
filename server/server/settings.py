@@ -1,5 +1,5 @@
-from pathlib import Path
 import os
+from pathlib import Path
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Frontend base URL for emails
-FRONTEND_URL = 'http://localhost:8000'
+FRONTEND_URL = 'http://localhost:5173'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -117,8 +117,8 @@ REST_FRAMEWORK = {
 # JWT Settings
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=11),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': True,
