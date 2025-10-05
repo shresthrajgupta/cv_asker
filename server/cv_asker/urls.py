@@ -10,6 +10,7 @@ from .views import UpdateSkillProficiencyAPIView
 from .views import AnswerQuestionAPIView
 from .views import GetQuestionsAPIView
 from .views import CookieTokenRefreshView
+from .views import CustomTokenDeleteView
 
 # fmt: off
 urlpatterns = [
@@ -23,4 +24,5 @@ urlpatterns = [
     path("question/store", GenerateQuestionsView.as_view()),
     path("history/update", AnswerQuestionAPIView.as_view()),
     path("question/fetch", GetQuestionsAPIView.as_view()),
+    path("logout/", CustomTokenDeleteView.as_view()),
 ]

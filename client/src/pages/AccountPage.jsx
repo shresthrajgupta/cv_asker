@@ -5,10 +5,14 @@ import { toast } from "react-toastify";
 
 import Sidebar from "../components/Sidebar";
 import Loading from "../components/Loading";
+import MainContainer from "../components/MainContainer";
+import Overlay from "../components/Overlay";
+import ContentContainer from "../components/ContentContainer";
+import GreenButton from "../components/GreenButton";
 
 import { useUpdateUserAccountInfoMutation } from "../redux/slices/async/usersApiSlice";
 
-import { contentBackgroundColor, textInputBackgroundColorTheme, buttonColorTheme, buttonTextColorTheme, buttonColorHoveredTheme, buttonColorFocusedTheme, toastBackgroundTheme, toastTextTheme } from "../utils/themeUtil";
+import { contentBackgroundColor, textInputBackgroundColorTheme, toastBackgroundTheme, toastTextTheme } from "../utils/themeUtil";
 
 export default function AccountPage() {
     const navigate = useNavigate();
@@ -50,12 +54,13 @@ export default function AccountPage() {
     }, [userInfo]);
 
     return (
-        <div className="flex h-full w-full">
-            <div className="basis-1/5 min-w-48">
-                <Sidebar />
-            </div>
-            <div className="flex flex-col w-full justify-center items-center">
-                <div className={`mx-4 p-6 md:w-[400px] rounded-xl ${contentBackgroundColor[themeMode]}`}>
+        <MainContainer>
+            <Sidebar />
+
+            <Overlay />
+
+            <ContentContainer>
+                <div className={`mx-4 p-6 md:w-4/5 lg:w-[400px] rounded-xl ${contentBackgroundColor[themeMode]}`}>
                     <form onSubmit={handleSubmit}>
                         <h2 className="text-3xl mb-5 text-center select-none"> Update Account </h2>
 
@@ -74,16 +79,12 @@ export default function AccountPage() {
                             <input disabled type="text" name="accountActivated" value={activate} onChange={(e) => setActivate(e.target.value)} placeholder="Yes / No" className={`w-full cursor-not-allowed p-2 rounded focus:outline-none border-none ${textInputBackgroundColorTheme[themeMode]}`} />
                         </div>
 
-                        <button type="submit" className={`w-full ${buttonTextColorTheme[themeMode]} ${buttonColorTheme[themeMode]} py-2 rounded-lg ${!updateUserAccountInfoLoading && buttonColorHoveredTheme[themeMode]} focus:outline-none ${!updateUserAccountInfoLoading && buttonColorFocusedTheme[themeMode]} mb-3`} >
-                            {updateUserAccountInfoLoading ? <Loading /> : "Save"}
-                        </button>
+                        <GreenButton type="submit" additionalClasses="w-full mb-3" text={updateUserAccountInfoLoading ? <Loading /> : "Save"} />
                     </form>
 
-                    <button onClick={handleDeleteBtn} className={`w-full ${buttonTextColorTheme[themeMode]} bg-red-600 hover:bg-red-500 py-2 rounded-lg focus:outline-none`} >
-                        Delete Account
-                    </button>
+                    <GreenButton onclick={handleDeleteBtn} additionalClasses="w-full bg-red-600 hover:bg-red-500" text="Delete Account" />
                 </div>
-            </div>
-        </div >
+            </ContentContainer>
+        </MainContainer >
     );
 }

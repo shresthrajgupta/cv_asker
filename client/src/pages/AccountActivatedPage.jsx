@@ -38,7 +38,7 @@ const AccountActivatedPage = () => {
     return (
         <>
             {
-                verifyAccountLoading ? <ClipLoader size={70} color='white' /> :
+                verifyAccountLoading ? <Loading size={70} /> :
                     activated ?
                         <div div className={`flex items-center justify-center min-h-screen ${backgroundColorTheme[themeMode]} ${textColorTheme[themeMode]}`}>
                             <div className="text-center">

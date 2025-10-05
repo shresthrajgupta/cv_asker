@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Plus, Trash } from "lucide-react";
-import { ClipLoader } from "react-spinners";
 
-import { textColorTheme, contentBackgroundColor, buttonColorTheme, buttonColorHoveredTheme, textInputBackgroundColorTheme } from "../utils/themeUtil";
+import Loading from "./Loading";
+import GreenButton from "./GreenButton";
+
+import { textColorTheme, contentBackgroundColor, textInputBackgroundColorTheme } from "../utils/themeUtil";
 
 const placeholdersArray = [{ "College": "Indian Institute of Technology Kharagpur" }, { "Company": "ABC Pvt. Ltd." }, { "Company 2": "XYX Pvt. Ltd." }, { "Category": "Actual Value" }];
 let placeholdersIndex = 0;
@@ -61,9 +63,7 @@ const CustomFields = ({ setCustomFields, disableSubmitBtn }) => {
                 <Plus size={18} /> Add Field
             </button>
 
-            <button type="button" disabled={disableSubmitBtn} onClick={handleSubmit} className={`px-4 py-2 ${textColorTheme[themeMode]} ${buttonColorTheme[themeMode]} ${!disableSubmitBtn && buttonColorHoveredTheme[themeMode]} rounded flex items-center justify-center`} >
-                {disableSubmitBtn ? <ClipLoader color={textColorTheme[themeMode]} /> : "Submit"}
-            </button>
+            <GreenButton text={disableSubmitBtn ? <Loading /> : "Submit"} type="button" disabled={disableSubmitBtn} onclick={handleSubmit} additionalClasses="px-4" />
         </div >
     );
 };

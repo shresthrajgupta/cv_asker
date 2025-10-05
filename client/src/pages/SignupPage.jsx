@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { ClipLoader } from 'react-spinners';
 
 import logo from "../assets/logo.svg";
 
+import GreenButton from '../components/GreenButton.jsx';
+import Loading from '../components/Loading.jsx';
+
 import { useSignupMutation } from '../redux/slices/async/usersApiSlice';
 
-import { textInputBorderColorTheme, buttonTextColorTheme, sectionTitleTheme, contentBackgroundColor, textInputBorderColorFocusedTheme, textInputBackgroundColorTheme, buttonColorTheme, buttonColorHoveredTheme, buttonColorFocusedTheme, toastTextTheme, toastBackgroundTheme, textColorTheme } from "../utils/themeUtil.js";
+import { textInputBorderColorTheme, sectionTitleTheme, contentBackgroundColor, textInputBorderColorFocusedTheme, textInputBackgroundColorTheme, toastTextTheme, toastBackgroundTheme } from "../utils/themeUtil.js";
 
 const SignUpPage = () => {
     const [email, setEmail] = useState("");
@@ -92,7 +94,7 @@ const SignUpPage = () => {
                             <input disabled={signupLoading} type="password" id="retypePassword" name="retypePassword" value={retypePassword} onChange={(e) => setRetypePassword(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${signupLoading && "cursor-not-allowed"}`} placeholder="p@sswOrd" />
                         </div>
 
-                        <button type="submit" disabled={signupLoading} className={`w-full ${buttonTextColorTheme[themeMode]} ${buttonColorTheme[themeMode]} py-2 rounded-lg ${!signupLoading && buttonColorHoveredTheme[themeMode]} focus:outline-none ${!signupLoading && buttonColorFocusedTheme[themeMode]} } flex justify-center items-center`}> {signupLoading ? <ClipLoader size={24} color={textColorTheme[themeMode]} /> : "Sign Up"} </button>
+                        <GreenButton type="submit" disabled={signupLoading} additionalClasses="w-full" text={signupLoading ? <Loading /> : "Sign Up"} />
                     </form>
                 </div>
 

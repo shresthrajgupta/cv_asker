@@ -3,12 +3,16 @@ import { useSelector } from "react-redux";
 
 import Sidebar from "../components/Sidebar";
 import Loading from "../components/Loading";
+import GreenButton from "../components/GreenButton";
+import MainContainer from "../components/MainContainer.jsx";
+import Overlay from "../components/Overlay.jsx";
+import ContentContainer from "../components/ContentContainer.jsx";
 
 import { useLazyGetProfileQuery, usePatchProficiencyMutation } from "../redux/slices/async/profileApiSlice";
 import { useGetQuestionsMutation, useStoreQuestionsMutation } from "../redux/slices/async/questionApiSlice";
 import { useStoreQuestionHistoryMutation } from "../redux/slices/async/userHistorySlice";
 
-import { buttonColorFocusedTheme, buttonColorHoveredTheme, buttonColorTheme, buttonTextColorTheme, contentBackgroundColor } from "../utils/themeUtil";
+import { contentBackgroundColor } from "../utils/themeUtil";
 
 const PracticePage = () => {
     const [skills, setSkills] = useState([]);
@@ -83,6 +87,11 @@ const PracticePage = () => {
         }
     };
 
+    const handleSetRandomSkill = () => {
+        const randomNumber = Math.floor(Math.random() * skills.length);
+        setSkillToAsk({ skill: skills[randomNumber].name, proficiency: skills[randomNumber].proficiency });
+    };
+
     const fetchQuestions = async () => {
         if (skillToAsk.skill && skillToAsk.proficiency) {
             try {
@@ -93,7 +102,6 @@ const PracticePage = () => {
                     setQuestionArray(res.data);
                 }
                 else {
-                    console.log(res);
                     setIsQuestionsSection(false);
                 }
 
@@ -125,7 +133,7 @@ const PracticePage = () => {
     };
 
     useEffect(() => {
-        if (skillToAsk.skill && skillToAsk.proficiency) {
+        if (skillToAsk.skill?.length > 0 && skillToAsk.proficiency > 0) {
             fetchQuestions();
         }
     }, [skillToAsk]);
@@ -146,11 +154,12 @@ const PracticePage = () => {
 
 
     return (
-        <div className="flex h-full w-full">
-            <div className="basis-1/5 min-w-48 flex justify-start">
-                <Sidebar />
-            </div>
-            <div className="w-full">
+        <MainContainer>
+            <Sidebar />
+
+            <Overlay />
+
+            <ContentContainer>
                 {
                     !ifFinalDialogue && !isQuestionsSection && (
                         getProfileLoading ?
@@ -160,19 +169,21 @@ const PracticePage = () => {
                             :
 
                             <>
-                                <h2 className="text-3xl text-center my-8 cursor-default">What do you want to practice?</h2>
-                                <div className={`text-center`}>
-                                    <button onClick={() => setSkillToAsk(skills[Math.floor(Math.random() * skills.length)])} className={`text-xl ${buttonColorTheme[themeMode]} ${buttonColorFocusedTheme[themeMode]} ${buttonColorHoveredTheme[themeMode]} ${buttonTextColorTheme[themeMode]} p-2 rounded-lg`}>
-                                        Choose Randomly
-                                    </button>
-                                </div>
-                                <div className="w-[95%] mx-auto p-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                    {skills.map((item, index) => (
-                                        <div key={index} onClick={() => setSkillToAsk({ skill: item.name, proficiency: item.proficiency })} className={`p-4 rounded-2xl shadow-md hover:shadow-lg transition ${contentBackgroundColor[themeMode]}`}>
-                                            <h2 className="font-semibold text-lg cursor-default">{item.name}</h2>
-                                            <p className="mt-1 text-sm cursor-default">Proficiency: {item.proficiency}</p>
-                                        </div>
-                                    ))}
+                                <div>
+                                    <h2 className="text-3xl text-center my-8 select-none">What do you want to practice?</h2>
+
+                                    <div className={`w-full flex justify-center items-center`}>
+                                        <GreenButton text="Choose Randomly" onclick={handleSetRandomSkill} />
+                                    </div>
+
+                                    <div className="w-[95%] mx-auto p-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                        {skills.map((item, index) => (
+                                            <div key={index} onClick={() => setSkillToAsk({ skill: item.name, proficiency: item.proficiency })} className={`p-4 rounded-2xl shadow-md hover:shadow-lg transition ${contentBackgroundColor[themeMode]}`}>
+                                                <h2 className="font-semibold text-lg cursor-default">{item.name}</h2>
+                                                <p className="mt-1 text-sm cursor-default">Proficiency: {item.proficiency}</p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </>
                     )
@@ -186,11 +197,11 @@ const PracticePage = () => {
                             </div>
                             :
                             <>
-                                <div className="flex justify-end items-center mt-6 mr-20">
-                                    <button onClick={goBackToSkillList} className={`${buttonColorTheme[themeMode]} ${buttonTextColorTheme[themeMode]} p-2 rounded-lg`}>Exit Questions</button>
+                                <div className="flex justify-end items-center mt-6 mr-[7%] lg:mr-20">
+                                    <GreenButton text="Exit Questions" onclick={goBackToSkillList} />
                                 </div>
 
-                                <div className="max-w-xl mx-auto p-6">
+                                <div className="max-w-[95%] lg:w-[45%] mx-auto p-6">
                                     <div className={`p-6 rounded-2xl shadow-md ${contentBackgroundColor[themeMode]}`}>
                                         <h2 className="text-lg font-semibold mb-4 select-none">
                                             Q{currentQuestion + 1}. {questionArray[currentQuestion].question}
@@ -199,8 +210,6 @@ const PracticePage = () => {
                                         <div className="space-y-2">
                                             {[questionArray[currentQuestion].option_a, questionArray[currentQuestion].option_b, questionArray[currentQuestion].option_c, questionArray[currentQuestion].option_d].map((opt, i) => (
                                                 <div key={i} onClick={() => { checkQuestion(String.fromCharCode('a'.charCodeAt(0) + i)) }} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition select-none ${isOptionChecked && ((questionArray[currentQuestion].correct_ans.toLowerCase() === String.fromCharCode('a'.charCodeAt(0) + i)) ? "border-green-500" : "border-red-500")}`}>
-                                                    {/* <input type="radio" name={`question-${currentQuestion}`} id={`q${currentQuestion}-opt${i}`} className="mr-3 cursor-pointer" /> */}
-                                                    {/* <label htmlFor={`q${currentQuestion}-opt${i}`} className="cursor-pointer"> {opt} </label> */}
                                                     <strong className="flex-shrink-0 h-full">{String.fromCharCode('a'.charCodeAt(0) + i)}. &nbsp; </strong>
                                                     <p className="flex-1"> {opt} </p>
                                                 </div>
@@ -211,16 +220,12 @@ const PracticePage = () => {
                                     <div className="flex justify-between mt-6">
                                         {
                                             (currentQuestion !== questionArray.length - 1) &&
-                                            <button disabled={!isOptionChecked} onClick={nextQuestion} className={`px-4 py-2 rounded-lg ${buttonColorTheme[themeMode]} ${buttonTextColorTheme[themeMode]} disabled:opacity-50`} >
-                                                Next
-                                            </button>
+                                            <GreenButton text="Next" onclick={nextQuestion} disabled={!isOptionChecked} additionalClasses="px-4" />
                                         }
 
                                         {
                                             (currentQuestion === questionArray.length - 1) &&
-                                            <button disabled={!isOptionChecked} onClick={finishQuestion} className={`px-4 py-2 rounded-lg ${buttonColorTheme[themeMode]} disabled:opacity-50`} >
-                                                Finish
-                                            </button>
+                                            <GreenButton text="Finish" onclick={finishQuestion} disabled={!isOptionChecked} additionalClasses="px-4" />
                                         }
 
                                     </div>
@@ -244,17 +249,16 @@ const PracticePage = () => {
                                     <p className=" mb-6">Do you want to practice more?</p>
 
                                     <div className="flex justify-center gap-4">
-                                        <button onClick={restartSameQuestionTopic} className={`px-6 py-2 ${buttonColorTheme[themeMode]} ${buttonTextColorTheme[themeMode]} rounded-lg hover:opacity-70 transition`}> Yes </button>
+                                        <GreenButton text="Yes" onclick={restartSameQuestionTopic} additionalClasses="px-6" />
 
-                                        <button onClick={goBackToSkillList} className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"> Go back </button>
+                                        <GreenButton text="Go back" onclick={goBackToSkillList} additionalClasses="bg-gray-600 hover:bg-gray-700 px-3" />
                                     </div>
                                 </div>
-
                             </>
                     )
                 }
-            </div>
-        </div >
+            </ContentContainer>
+        </MainContainer >
     );
 };
 

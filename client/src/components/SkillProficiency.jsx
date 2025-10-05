@@ -4,7 +4,10 @@ import { Plus, Trash } from "lucide-react";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 
-import { textColorTheme, textInputBackgroundColorTheme, contentBackgroundColor, toastBackgroundTheme, toastTextTheme, buttonColorTheme, buttonColorHoveredTheme, headingColorTheme, sectionTitleTheme } from "../utils/themeUtil";
+import GreenButton from "./GreenButton.jsx";
+import Loading from "./Loading.jsx";
+
+import { textColorTheme, textInputBackgroundColorTheme, contentBackgroundColor, toastBackgroundTheme, toastTextTheme, buttonColorTheme, headingColorTheme, sectionTitleTheme, buttonTextColorTheme } from "../utils/themeUtil";
 
 const SkillProficiency = ({ profile, setProfile, disableSubmitBtn, isGetProfilePage = false, setButtonClicked }) => {
     const [experienceYears, setExperienceYears] = useState(0);
@@ -34,8 +37,22 @@ const SkillProficiency = ({ profile, setProfile, disableSubmitBtn, isGetProfileP
     const handleSubmit = () => {
         let isError = false;
         skills.forEach((skill) => {
+            if (skill.name === "") {
+                toast.error("Please enter skill name",
+                    { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
+                );
+                isError = true;
+                return;
+            }
             if (skill.proficiency === "") {
-                toast.error("Please enter proficiency level",
+                toast.error("Please enter proficiency",
+                    { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
+                );
+                isError = true;
+                return;
+            }
+            if (Number(skill.proficiency) < 1) {
+                toast.error("Invalid proficiency",
                     { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
                 );
                 isError = true;
@@ -88,7 +105,7 @@ const SkillProficiency = ({ profile, setProfile, disableSubmitBtn, isGetProfileP
     }, [profile]);
 
     return (
-        <div className={`p-6 ${contentBackgroundColor[themeMode]} rounded-xl md:w-3/5 lg:w-3/5 space-y-4 max-h-4/5 overflow-y-auto`}>
+        <div className={`p-6 ${contentBackgroundColor[themeMode]} rounded-xl md:w-4/5 lg:w-3/5 space-y-4`}>
             <h2 className={`py-3 text-2xl text-center select-none ${headingColorTheme[themeMode]}`}>Are these information accurate?</h2>
 
             <div className="flex gap-2 w-full">
@@ -105,9 +122,9 @@ const SkillProficiency = ({ profile, setProfile, disableSubmitBtn, isGetProfileP
 
             {skills.map((skill, index) => (
                 <div key={index} className="flex gap-2 w-full">
-                    <input type="text" disabled={disableSubmitBtn} placeholder="Skill name" value={skill.name} onChange={(e) => handleChange(index, "name", e.target.value)} className={`w-2/5 min-w-[120px] p-2 rounded focus:outline-none border-none ${textInputBackgroundColorTheme[themeMode]} ${disableSubmitBtn && "cursor-not-allowed"}`} />
+                    <input type="text" disabled={disableSubmitBtn} placeholder="Skill name" value={skill.name} onChange={(e) => handleChange(index, "name", e.target.value)} className={`w-3/5 min-w-[120px] p-2 rounded focus:outline-none border-none ${textInputBackgroundColorTheme[themeMode]} ${disableSubmitBtn && "cursor-not-allowed"}`} />
 
-                    <input type="number" disabled={disableSubmitBtn} placeholder="Proficiency (1-10)" value={skill.proficiency} min={1} max={10} onChange={(e) => handleChange(index, "proficiency", e.target.value)} className={`w-1/2 p-2 rounded focus:outline-none border-none ${textInputBackgroundColorTheme[themeMode]} ${disableSubmitBtn && "cursor-not-allowed"}`} />
+                    <input type="number" disabled={disableSubmitBtn} placeholder="Proficiency (1-10)" value={skill.proficiency} min={1} max={10} onChange={(e) => handleChange(index, "proficiency", e.target.value)} className={`w-1/4 p-2 rounded focus:outline-none border-none ${textInputBackgroundColorTheme[themeMode]} ${disableSubmitBtn && "cursor-not-allowed"}`} />
 
                     <button type="button" onClick={() => removeSkill(index)} className={`pl-2 py-2 text-red-500 ${!disableSubmitBtn && "hover:text-red-700"} flex justify-end w-auto`} >
                         <Trash size={22} />
@@ -119,9 +136,7 @@ const SkillProficiency = ({ profile, setProfile, disableSubmitBtn, isGetProfileP
                 <Plus size={18} /> Add Skill
             </button>
 
-            <button type="button" disabled={disableSubmitBtn} onClick={handleSubmit} className={`px-4 py-2 ${textColorTheme[themeMode]} ${buttonColorTheme[themeMode]} ${!disableSubmitBtn && buttonColorHoveredTheme[themeMode]} rounded flex justify-center items-center`} >
-                {disableSubmitBtn ? <ClipLoader color={textColorTheme[themeMode]} /> : (isGetProfilePage ? "Update" : "Submit")}
-            </button>
+            <GreenButton text={disableSubmitBtn ? <Loading /> : (isGetProfilePage ? "Update" : "Submit")} type="button" disabled={disableSubmitBtn} onclick={handleSubmit} additionalClasses="px-4" />
         </div >
     );
 };

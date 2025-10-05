@@ -5,6 +5,9 @@ import { toast } from "react-toastify";
 import Sidebar from "../components/Sidebar";
 import SkillProficiency from "../components/SkillProficiency";
 import Loading from "../components/Loading";
+import MainContainer from "../components/MainContainer.jsx";
+import Overlay from "../components/Overlay.jsx";
+import ContentContainer from "../components/ContentContainer.jsx";
 
 import { useLazyGetProfileQuery, usePatchProfileMutation } from "../redux/slices/async/profileApiSlice";
 
@@ -30,31 +33,31 @@ const ProfilePage = () => {
                 }
             }
         };
-            fetchData();
-        }, [accessToken]);
+        fetchData();
+    }, [accessToken]);
 
-        useEffect(() => {
-            if (getProfileData?.skills.length > 0) {
-                setProfile({ "Experience Level": getProfileData.experience_years, Skills: getProfileData.skills, jobProfile: getProfileData.job_profile });
-            }
-        }, [getProfileData]);
+    useEffect(() => {
+        if (getProfileData?.skills.length > 0) {
+            setProfile({ "Experience Level": getProfileData.experience_years, Skills: getProfileData.skills, jobProfile: getProfileData.job_profile });
+        }
+    }, [getProfileData]);
 
-        useEffect(() => {
-            const updateProfile = async () => {
-                if (buttonClicked) {
-                    try {
-                        const res = await patchProfile({ profile, accessToken });
-                        if (res.data && res.data.message === "Profile updated") {
-                            toast.success("Profile updated successfully",
-                                { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
-                            )
-                        }
-                        else {
-                            toast.error("Error updating profile",
-                                { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
-                            );
-                        }
-                    } catch (err) {
+    useEffect(() => {
+        const updateProfile = async () => {
+            if (buttonClicked) {
+                try {
+                    const res = await patchProfile({ profile, accessToken });
+                    if (res.data && res.data.message === "Profile updated") {
+                        toast.success("Profile updated successfully",
+                            { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
+                        )
+                    }
+                    else {
+                        toast.error("Error updating profile",
+                            { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
+                        );
+                    }
+                } catch (err) {
                     console.log(err);
                 }
             }
@@ -65,18 +68,18 @@ const ProfilePage = () => {
     }, [buttonClicked]);
 
     return (
-        <div className="flex h-full w-full">
-            <div className="basis-1/5 min-w-48">
-                <Sidebar />
-            </div>
+        <MainContainer>
+            <Sidebar />
 
-            <div className="flex flex-col w-full justify-center items-center">
+            <Overlay />
+
+            <ContentContainer>
                 {
                     getProfileLoading ? <Loading size={70} /> :
                         <SkillProficiency profile={profile} setProfile={setProfile} disableSubmitBtn={patchProfileLoading} isGetProfilePage={true} setButtonClicked={setButtonClicked} />
                 }
-            </div>
-        </div>
+            </ContentContainer>
+        </MainContainer>
     );
 };
 

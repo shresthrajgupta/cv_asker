@@ -7,6 +7,9 @@ import FileUploadBox from "../components/FileUploadBox";
 import CustomFields from "../components/CustomFields";
 import SkillProficiency from "../components/SkillProficiency";
 import WarningReload from "../components/WarningReload.jsx";
+import Overlay from "../components/Overlay.jsx";
+import MainContainer from "../components/MainContainer.jsx";
+import ContentContainer from "../components/ContentContainer.jsx";
 
 import { useUploadPDFMutation } from "../redux/slices/async/cvApiSlice";
 import { useSaveProfileMutation } from "../redux/slices/async/profileApiSlice.js";
@@ -133,33 +136,32 @@ const UploadCVPage = () => {
     }, [profile]);
 
     return (
-        <div className="flex h-full w-full">
-            <div className="basis-1/5 min-w-48">
-                <Sidebar />
-            </div>
-            <div className="flex flex-col w-full justify-center items-center">
-                {
-                    isUploadSection && <>
-                        <div className={`mx-4 p-6 md:w-[600px] rounded-xl ${contentBackgroundColor[themeMode]}`}>
-                            <p className="text-xl mb-5 text-center select-none">You can upload your CV without any worries. <br /> This tool will not use your personal information for anything</p>
-                            <FileUploadBox onFileSelect={(file) => setFile(file)} />
-                        </div>
-                    </>
-                }
+        <MainContainer>
+            <Sidebar />
 
-                {
-                    isCustomFieldsSection && <>
-                        <CustomFields setCustomFields={setCustomFields} disableSubmitBtn={uploadPDFLoading} />
-                    </>
-                }
+            <Overlay />
 
-                {
-                    isExtractedDataSection && <>
-                        <SkillProficiency profile={profile} setProfile={setProfile} disableSubmitBtn={saveProfileLoading} />
-                    </>
-                }
-            </div>
-        </div>
+            <ContentContainer>
+                {isUploadSection && (
+                    <div className={`mx-4 p-6 md:min-w-[500px] md:max-w-[95%] rounded-xl ${contentBackgroundColor[themeMode]}`} >
+                        <p className="text-xl mb-5 text-center select-none">
+                            You can upload your CV without any worries. <br /> This tool will not use your personal
+                            information for anything
+                        </p>
+
+                        <FileUploadBox onFileSelect={(file) => setFile(file)} />
+                    </div>
+                )}
+
+                {isCustomFieldsSection && (
+                    <CustomFields setCustomFields={setCustomFields} disableSubmitBtn={uploadPDFLoading} />
+                )}
+
+                {isExtractedDataSection && (
+                    <SkillProficiency profile={profile} setProfile={setProfile} disableSubmitBtn={saveProfileLoading} />
+                )}
+            </ContentContainer>
+        </MainContainer>
     );
 };
 

@@ -8,6 +8,11 @@ export const contentBackgroundColor = {
     dark: 'bg-[#252728]'
 }
 
+export const sidebarBackgroundColor = {
+    light: 'bg-[#f9f9f9]',
+    dark: 'bg-[#181818]'
+}
+
 export const sectionTitleTheme = {
     light: 'text-[#65686c]',
     dark: 'text-[#b0b3b8]'
@@ -34,10 +39,10 @@ export const textInputBorderColorFocusedTheme = {
 }
 
 export const textInputBackgroundColorTheme = {
-    light: 'bg-[#ffffff]',
+    light: 'bg-[#f5f5f5]',
     dark: 'bg-[#1a1a1a]'
 }
-
+    
 export const buttonTextColorTheme = {
     light: 'text-white',
     dark: 'text-[#e2e5e9]'
@@ -46,16 +51,6 @@ export const buttonTextColorTheme = {
 export const buttonColorTheme = {
     light: 'bg-[#16a34a]',
     dark: 'bg-[#22c55e]'
-}
-
-export const buttonColorHoveredTheme = {
-    light: 'hover:bg-[#15803d]',
-    dark: 'hover:bg-[#4ade80]'
-}
-
-export const buttonColorFocusedTheme = {
-    light: 'focus:bg-[#127834]',
-    dark: 'focus:bg-[#1ea34f]'
 }
 
 export const toastTextTheme = {
@@ -87,3 +82,8 @@ export const greenTextTheme = {
     light: 'text-[#16a34a]',
     dark: 'text-[#22c55e]'
 }
+
+export const overlayTheme = {
+    light: 'bg-gray-300',
+    dark: 'bg-gray-500'
+};

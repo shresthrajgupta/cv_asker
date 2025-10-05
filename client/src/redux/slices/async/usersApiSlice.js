@@ -28,6 +28,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
             })
         }),
 
+        logout: builder.mutation({
+            query: (accessToken) => ({
+                url: "/api/logout/",
+                method: 'POST',
+                headers: { authorization: `JWT ${accessToken}` },
+                credentials: "include"
+            })
+        }),
+
         resetPassword: builder.mutation({
             query: (email) => ({
                 url: "/api/auth/users/reset_password/",
@@ -82,74 +91,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
                 credentials: "include"
             })
         }),
-
-        // forgotPassword: builder.mutation({
-        //     query: ({ email, password }) => ({
-        //         url: "/api/users/forgotpassword",
-        //         method: 'POST',
-        //         body: { email, password }
-        //     })
-        // }),
-
-        // homepageGames: builder.query({
-        //     query: () => ({
-        //         url: "/api/users/homepagegames",
-        //         method: 'GET'
-        //     }),
-        //     providesTags: ["Game"],
-        //     keepUnusedDataFor: 10
-        // }),
-
-        // addToPlaylist: builder.mutation({
-        //     query: ({ gameId }) => ({
-        //         url: "/api/users/playlist",
-        //         method: 'POST',
-        //         body: { gameId }
-        //     })
-        // }),
-
-        // delFromPlaylist: builder.mutation({
-        //     query: ({ gameId }) => ({
-        //         url: "/api/users/playlist",
-        //         method: 'DELETE',
-        //         body: { gameId }
-        //     })
-        // }),
-
-        // addToCompletedList: builder.mutation({
-        //     query: ({ gameId }) => ({
-        //         url: "/api/users/completedlist",
-        //         method: 'POST',
-        //         body: { gameId }
-        //     })
-        // }),
-
-        // delFromCompletedList: builder.mutation({
-        //     query: ({ gameId }) => ({
-        //         url: "/api/users/completedlist",
-        //         method: 'DELETE',
-        //         body: { gameId }
-        //     })
-        // }),
-
-        // showPlaylist: builder.query({
-        //     query: ({ pageNo }) => ({
-        //         url: `/api/users/playlist?page=${pageNo}`,
-        //         method: 'GET'
-        //     }),
-        //     providesTags: ["Game"],
-        //     keepUnusedDataFor: 10
-        // }),
-
-        // showCompletedList: builder.query({
-        //     query: ({ pageNo }) => ({
-        //         url: `/api/users/completedlist?page=${pageNo}`,
-        //         method: 'GET'
-        //     }),
-        //     providesTags: ["Game"],
-        //     keepUnusedDataFor: 10
-        // }),
-
     })
 });
 
@@ -158,18 +99,11 @@ export const
         useSignupMutation,
         useVerifyAccountMutation,
         useLoginMutation,
+        useLogoutMutation,
         useResetPasswordMutation,
         useSetNewPasswordMutation,
         useLazyUserAccountInfoQuery,
         useUpdateUserAccountInfoMutation,
         useDeleteUserAccountMutation,
         useGetAccessTokenMutation,
-        // useForgotPasswordMutation,
-        // useHomepageGamesQuery,
-        // useAddToPlaylistMutation,
-        // useDelFromPlaylistMutation,
-        // useAddToCompletedListMutation,
-        // useDelFromCompletedListMutation,
-        // useLazyShowPlaylistQuery,
-        // useLazyShowCompletedListQuery
     } = usersApiSlice;

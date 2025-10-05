@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 import logo from "../assets/logo.svg";
 
+import GreenButton from "../components/GreenButton";
+import Loading from "../components/Loading";
+
 import { useResetPasswordMutation, useSetNewPasswordMutation } from "../redux/slices/async/usersApiSlice";
 
-import { contentBackgroundColor, sectionTitleTheme, textInputBorderColorTheme, textInputBorderColorFocusedTheme, textInputBackgroundColorTheme, buttonTextColorTheme, buttonColorTheme, buttonColorHoveredTheme, buttonColorFocusedTheme, toastBackgroundTheme, toastTextTheme, textColorTheme } from "../utils/themeUtil";
+import { contentBackgroundColor, sectionTitleTheme, textInputBorderColorTheme, textInputBorderColorFocusedTheme, textInputBackgroundColorTheme, toastBackgroundTheme, toastTextTheme } from "../utils/themeUtil";
 
 const ForgotPasswordPage = () => {
     const location = useLocation();
@@ -131,7 +133,7 @@ const ForgotPasswordPage = () => {
                                 <input type="email" id="email" name="email" disabled={resetPasswordLoading} value={email} onChange={(e) => setEmail(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${resetPasswordLoading && "cursor-not-allowed"}`} placeholder="Enter e-mail" required />
                             </div>
 
-                            <button type="submit" disabled={resetPasswordLoading} className={`w-full ${buttonTextColorTheme[themeMode]} ${buttonColorTheme[themeMode]} py-2 rounded-lg ${!resetPasswordLoading && buttonColorHoveredTheme[themeMode]} focus:outline-none ${!resetPasswordLoading && buttonColorFocusedTheme[themeMode]} flex justify-center items-center`}> {resetPasswordLoading ? <ClipLoader size={24} color={`${textColorTheme[themeMode]}`} /> : "Send Link"} </button>
+                            <GreenButton text={resetPasswordLoading ? <Loading /> : "Send Link"} type="submit" disabled={resetPasswordLoading} additionalClasses="w-full" />
                         </form>
                     </div>
                 </div>
@@ -156,7 +158,7 @@ const ForgotPasswordPage = () => {
                                 <input disabled={setNewPasswordLoading} type="password" id="confirm_password" name="confirm_password" value={rePassword} onChange={(e) => setRePassword(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${setNewPasswordLoading && "cursor-not-allowed"}`} placeholder="Confirm Password" required />
                             </div>
 
-                            <button type="submit" disabled={setNewPasswordLoading} className={`w-full ${buttonTextColorTheme[themeMode]} ${buttonColorTheme[themeMode]} py-2 rounded-lg ${buttonColorHoveredTheme[themeMode]} focus:outline-none ${buttonColorFocusedTheme[themeMode]} flex justify-center items-center`}> {setNewPasswordLoading ? <ClipLoader color={textColorTheme[themeMode]} size={24} /> : "Reset Password"} </button>
+                            <GreenButton text={setNewPasswordLoading ? <Loading /> : "Reset Password"} type="submit" disabled={setNewPasswordLoading} additionalClasses="w-full" />
                         </form>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ import { apiSlice } from "./slices/async/apiSlice.js";
 import authSliceReducer from "./slices/sync/authSlice.js";
 import accessTokenSliceReducer from "./slices/sync/accessTokenSlice.js";
 import themeSliceReducer from "./slices/sync/themeSlice.js";
+import sidebarOpenSliceReducer from "./slices/sync/sidebarOpenSlice.js";
 
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
         auth: authSliceReducer,
         theme: themeSliceReducer,
         accessToken: accessTokenSliceReducer,
+        sidebarOpen: sidebarOpenSliceReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
     devTools: true,
