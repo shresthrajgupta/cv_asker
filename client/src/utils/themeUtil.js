@@ -83,6 +83,11 @@ export const greenTextTheme = {
     dark: 'text-[#22c55e]'
 }
 
+export const greenTextHoverTheme = {
+    light: 'hover:text-[#16a34a]',
+    dark: 'hover:text-[#22c55e]'
+}
+
 export const overlayTheme = {
     light: 'bg-gray-300',
     dark: 'bg-gray-500'

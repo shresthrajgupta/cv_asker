@@ -44,7 +44,7 @@ const CustomFields = ({ setCustomFields, disableSubmitBtn }) => {
     };
 
     return (
-        <div className={`p-6 ${contentBackgroundColor[themeMode]} rounded-xl md:w-4/5 lg:w-3/5 space-y-4 max-h-4/5 overflow-y-auto`}>
+        <div className={`p-6 ${contentBackgroundColor[themeMode]} rounded-xl shadow-lg md:w-4/5 lg:w-3/5 space-y-4 max-h-4/5 overflow-y-auto`}>
             <h2 className="py-3 text-lg text-center select-none">This tool automatically captures key personal info. You can also remove any sensitive fields before processing. Please enter exact values as mentioned in resume.</h2>
 
             <h2 className="my-3 text-lg font-semibold select-none">Enter Info</h2>

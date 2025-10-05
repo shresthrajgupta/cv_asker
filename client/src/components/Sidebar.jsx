@@ -56,12 +56,12 @@ export default function Sidebar() {
     };
 
     return (
-        <div className={`fixed md:relative top-0 left-0 h-full w-4/5 md:w-auto md:basis-1/5 transition-transform duration-300 ease-in-out  ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`} style={{ zIndex: 50 }} >
+        <div className={`fixed md:relative shadow top-0 left-0 h-full w-4/5 md:w-auto md:basis-1/5 transition-transform duration-300 ease-in-out  ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`} style={{ zIndex: 50 }} >
             <div className={`flex flex-col w-full min-w-48 min-h-full justify-between ${sidebarBackgroundColor[themeMode]} pl-1`}>
-                <div className="flex flex-col my-6 h-full overflow-y-auto">
+                <div className="flex flex-col my-6 h-full w-full overflow-y-auto">
                     {sidebarElements.map((element, idx) => (
-                        <div key={idx} onClick={() => dispatch(setSidebarOpen(false))}>
-                            <Link to={element.to} className={`flex flex-row gap-2 pl-3 py-3 justify-self-start rounded-lg ${navbarItemHoverColor[themeMode]}`}>
+                        <div key={idx} onClick={() => dispatch(setSidebarOpen(false))} className="w-full">
+                            <Link to={element.to} className={`flex flex-row gap-2 pl-3 py-3 justify-self-start rounded-xl w-full ${navbarItemHoverColor[themeMode]}`}>
                                 {element.icon}
                                 <p> {element.text} </p>
                             </Link>
@@ -70,7 +70,7 @@ export default function Sidebar() {
                 </div>
 
                 {/* Bottom section */}
-                <div className={`relative py-3 mb-1 pl-3 flex w-full cursor-pointer select-none ${navbarItemHoverColor[themeMode]} rounded-lg`} onClick={() => setOpenUserMenu(!openUserMenu)}>
+                <div className={`relative py-3 mb-1 pl-3 flex w-full cursor-pointer select-none ${navbarItemHoverColor[themeMode]} rounded-xl`} onClick={() => setOpenUserMenu(!openUserMenu)}>
                     <div className={`flex flex-row gap-2`}>
                         <User size={22} />
                         <p>{userInfo?.email.split('@')[0]}</p>
@@ -78,7 +78,7 @@ export default function Sidebar() {
 
                     {/* Popup Menu */}
                     {openUserMenu && (
-                        <div onClick={() => dispatch(setSidebarOpen(false))} className={`absolute bottom-14 left-26 -translate-x-1/2 ${contentBackgroundColor[themeMode]} rounded-lg shadow-lg py-2 w-48 z-10`}>
+                        <div onClick={() => dispatch(setSidebarOpen(false))} className={`absolute bottom-14 left-26 -translate-x-1/2 ${contentBackgroundColor[themeMode]} rounded-xl shadow-lg py-2 w-48 z-10`}>
                             <Link to={"/account"} className={`block w-full text-left px-4 py-2 cursor-pointer ${navbarItemHoverColor[themeMode]}`}> Account </Link>
 
                             <Link to={"/profile"} className={`block w-full text-left px-4 py-2 cursor-pointer ${navbarItemHoverColor[themeMode]}`}> Profile </Link>

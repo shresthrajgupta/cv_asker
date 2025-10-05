@@ -69,10 +69,10 @@ const DeleteAccountPage = () => {
 
                         <div className="p-6 w-full max-w-sm">
                             <div className="mb-4">
-                                <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none border-none textInputBorderColorTheme[themeMode] ${textInputBackgroundColorTheme[themeMode]}`} placeholder="Enter password" required />
+                                <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`w-full px-3 py-2 border rounded focus:outline-none border-none textInputBorderColorTheme[themeMode] ${textInputBackgroundColorTheme[themeMode]}`} placeholder="Enter password" required />
                             </div>
 
-                            <button onClick={() => setIsPasswordFilled(true)} className={`w-full ${buttonTextColorTheme[themeMode]} py-2 rounded-lg focus:outline-none bg-red-600 hover:bg-red-500 flex justify-center items-center`}> Delete Account </button>
+                            <button onClick={() => setIsPasswordFilled(true)} className={`w-full ${buttonTextColorTheme[themeMode]} py-2 rounded focus:outline-none bg-red-600 hover:bg-red-500 flex justify-center items-center`}> Delete Account </button>
                         </div>
                     </div>
                 }

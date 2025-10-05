@@ -14,7 +14,7 @@ import ContentContainer from "../components/ContentContainer.jsx";
 import { useUploadPDFMutation } from "../redux/slices/async/cvApiSlice";
 import { useSaveProfileMutation } from "../redux/slices/async/profileApiSlice.js";
 
-import { contentBackgroundColor, toastBackgroundTheme, toastTextTheme } from "../utils/themeUtil.js"
+import { contentBackgroundColor, toastBackgroundTheme, toastTextTheme, greenTextHoverTheme } from "../utils/themeUtil.js"
 
 
 const UploadCVPage = () => {
@@ -35,6 +35,15 @@ const UploadCVPage = () => {
     const [uploadPDF, { isLoading: uploadPDFLoading }] = useUploadPDFMutation();
     const [saveProfile, { isLoading: saveProfileLoading }] = useSaveProfileMutation();
 
+    const skipCVUpload = () => {
+        setFile(null);
+        setCustomFields([]);
+        setProfile({});
+
+        setIsUploadSection(false);
+        setIsCustomFieldsSection(false);
+        setIsExtractedDataSection(true);
+    };
 
     useEffect(() => {
         if (file) {
@@ -143,13 +152,18 @@ const UploadCVPage = () => {
 
             <ContentContainer>
                 {isUploadSection && (
-                    <div className={`mx-4 p-6 md:min-w-[500px] md:max-w-[95%] rounded-xl ${contentBackgroundColor[themeMode]}`} >
+                    <div className={`mx-4 p-6 shadow-lg md:min-w-[500px] md:max-w-[95%] rounded-xl ${contentBackgroundColor[themeMode]}`} >
                         <p className="text-xl mb-5 text-center select-none">
                             You can upload your CV without any worries. <br /> This tool will not use your personal
                             information for anything
                         </p>
 
                         <FileUploadBox onFileSelect={(file) => setFile(file)} />
+
+                        <div onClick={skipCVUpload} className={`${greenTextHoverTheme[themeMode]}`}>
+                            <p className={`text-xl mt-8 text-center select-none`}>OR</p>
+                            <p className={`text-xl text-center select-none`}>Provide skills manually</p>
+                        </div>
                     </div>
                 )}
 

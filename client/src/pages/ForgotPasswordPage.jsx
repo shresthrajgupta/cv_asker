@@ -130,7 +130,7 @@ const ForgotPasswordPage = () => {
                         <form onSubmit={handleSendLinkSubmit}>
                             <div className="mb-4">
                                 <label htmlFor="email" className="block">Email</label>
-                                <input type="email" id="email" name="email" disabled={resetPasswordLoading} value={email} onChange={(e) => setEmail(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${resetPasswordLoading && "cursor-not-allowed"}`} placeholder="Enter e-mail" required />
+                                <input type="email" id="email" name="email" disabled={resetPasswordLoading} value={email} onChange={(e) => setEmail(e.target.value)} className={`w-full px-3 py-2 border rounded focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${resetPasswordLoading && "cursor-not-allowed"}`} placeholder="Enter e-mail" required />
                             </div>
 
                             <GreenButton text={resetPasswordLoading ? <Loading /> : "Send Link"} type="submit" disabled={resetPasswordLoading} additionalClasses="w-full" />
@@ -150,12 +150,12 @@ const ForgotPasswordPage = () => {
                         <form onSubmit={handleResetPasswordSubmit}>
                             <div className="mb-4">
                                 <label htmlFor="password" className="block">Password</label>
-                                <input disabled={setNewPasswordLoading} type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${setNewPasswordLoading && "cursor-not-allowed"}`} placeholder="Enter password" required />
+                                <input disabled={setNewPasswordLoading} type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`w-full px-3 py-2 border rounded focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${setNewPasswordLoading && "cursor-not-allowed"}`} placeholder="Enter password" required />
                             </div>
 
                             <div className="mb-4">
                                 <label htmlFor="confirm_password" className="block">Confirm Password:</label>
-                                <input disabled={setNewPasswordLoading} type="password" id="confirm_password" name="confirm_password" value={rePassword} onChange={(e) => setRePassword(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${setNewPasswordLoading && "cursor-not-allowed"}`} placeholder="Confirm Password" required />
+                                <input disabled={setNewPasswordLoading} type="password" id="confirm_password" name="confirm_password" value={rePassword} onChange={(e) => setRePassword(e.target.value)} className={`w-full px-3 py-2 border rounded focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]} ${setNewPasswordLoading && "cursor-not-allowed"}`} placeholder="Confirm Password" required />
                             </div>
 
                             <GreenButton text={setNewPasswordLoading ? <Loading /> : "Reset Password"} type="submit" disabled={setNewPasswordLoading} additionalClasses="w-full" />

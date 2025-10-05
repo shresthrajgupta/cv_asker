@@ -163,14 +163,12 @@ const PracticePage = () => {
                 {
                     !ifFinalDialogue && !isQuestionsSection && (
                         getProfileLoading ?
-                            <div className="mt-16">
-                                <Loading size={70} />
-                            </div>
+                            <Loading size={70} />
                             :
 
                             <>
-                                <div>
-                                    <h2 className="text-3xl text-center my-8 select-none">What do you want to practice?</h2>
+                                <div className="w-full">
+                                    <h2 className="text-3xl mb-6 text-center select-none">What do you want to practice?</h2>
 
                                     <div className={`w-full flex justify-center items-center`}>
                                         <GreenButton text="Choose Randomly" onclick={handleSetRandomSkill} />
@@ -178,7 +176,7 @@ const PracticePage = () => {
 
                                     <div className="w-[95%] mx-auto p-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                         {skills.map((item, index) => (
-                                            <div key={index} onClick={() => setSkillToAsk({ skill: item.name, proficiency: item.proficiency })} className={`p-4 rounded-2xl shadow-md hover:shadow-lg transition ${contentBackgroundColor[themeMode]}`}>
+                                            <div key={index} onClick={() => setSkillToAsk({ skill: item.name, proficiency: item.proficiency })} className={`p-4 rounded-xl shadow-md hover:shadow-lg transition ${contentBackgroundColor[themeMode]}`}>
                                                 <h2 className="font-semibold text-lg cursor-default">{item.name}</h2>
                                                 <p className="mt-1 text-sm cursor-default">Proficiency: {item.proficiency}</p>
                                             </div>
@@ -202,14 +200,14 @@ const PracticePage = () => {
                                 </div>
 
                                 <div className="max-w-[95%] lg:w-[45%] mx-auto p-6">
-                                    <div className={`p-6 rounded-2xl shadow-md ${contentBackgroundColor[themeMode]}`}>
+                                    <div className={`p-6 rounded-xl shadow-md ${contentBackgroundColor[themeMode]}`}>
                                         <h2 className="text-lg font-semibold mb-4 select-none">
                                             Q{currentQuestion + 1}. {questionArray[currentQuestion].question}
                                         </h2>
 
                                         <div className="space-y-2">
                                             {[questionArray[currentQuestion].option_a, questionArray[currentQuestion].option_b, questionArray[currentQuestion].option_c, questionArray[currentQuestion].option_d].map((opt, i) => (
-                                                <div key={i} onClick={() => { checkQuestion(String.fromCharCode('a'.charCodeAt(0) + i)) }} className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition select-none ${isOptionChecked && ((questionArray[currentQuestion].correct_ans.toLowerCase() === String.fromCharCode('a'.charCodeAt(0) + i)) ? "border-green-500" : "border-red-500")}`}>
+                                                <div key={i} onClick={() => { checkQuestion(String.fromCharCode('a'.charCodeAt(0) + i)) }} className={`flex items-center p-3 rounded-xl border-2 cursor-pointer transition select-none ${isOptionChecked && ((questionArray[currentQuestion].correct_ans.toLowerCase() === String.fromCharCode('a'.charCodeAt(0) + i)) ? "border-green-500" : "border-red-500")}`}>
                                                     <strong className="flex-shrink-0 h-full">{String.fromCharCode('a'.charCodeAt(0) + i)}. &nbsp; </strong>
                                                     <p className="flex-1"> {opt} </p>
                                                 </div>

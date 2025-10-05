@@ -103,12 +103,12 @@ const LoginPage = () => {
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="email" className="block select-none">Email:</label>
-                            <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]}`} placeholder="xyz@email.com" required />
+                            <input type="email" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} className={`w-full px-3 py-2 border rounded focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]}`} placeholder="xyz@email.com" required />
                         </div>
 
                         <div className="mb-4">
                             <label htmlFor="password" className="block select-none">Password:</label>
-                            <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`w-full px-3 py-2 border rounded-lg focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]}`} placeholder="p@sswOrd" required />
+                            <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`w-full px-3 py-2 border rounded focus:outline-none ${isError ? 'border-red-500' : textInputBorderColorTheme[themeMode]} ${textInputBorderColorFocusedTheme[themeMode]} ${textInputBackgroundColorTheme[themeMode]}`} placeholder="p@sswOrd" required />
                         </div>
 
                         <GreenButton type="submit" disabled={loginLoading} additionalClasses="w-full" text={loginLoading ? <Loading /> : "Log In"} />
