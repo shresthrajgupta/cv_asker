@@ -1,3 +1,4 @@
+import os
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -62,6 +63,8 @@ class GetQuestionsAPIView(APIView):
                 print("calling LLM to generate remaining questions")
                 ai_questions = generate_question(skill_name, proficiency)
             except Exception:
+                if os.environ.get("DEBUG_MODE") == 'true':
+                    print("AI question generating error", Exception)
                 return Response(
                     {"error": "Error generating questions, please try again."},
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
