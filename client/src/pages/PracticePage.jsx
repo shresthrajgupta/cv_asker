@@ -12,7 +12,7 @@ import { useLazyGetProfileQuery, usePatchProficiencyMutation } from "../redux/sl
 import { useGetQuestionsMutation, useStoreQuestionsMutation } from "../redux/slices/async/questionApiSlice";
 import { useStoreQuestionHistoryMutation } from "../redux/slices/async/userHistorySlice";
 
-import { contentBackgroundColor } from "../utils/themeUtil";
+import { contentBackgroundColor, toastBackgroundTheme, toastTextTheme } from "../utils/themeUtil";
 
 const PracticePage = () => {
     const [skills, setSkills] = useState([]);
@@ -103,9 +103,11 @@ const PracticePage = () => {
                 }
                 else {
                     setIsQuestionsSection(false);
+                    toast.error("Error generating questions", { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } });
                 }
 
-                storeQuestions({ skillToAsk, accessToken }).unwrap();
+                storeQuestions({ skillToAsk: { skill: skillToAsk.skill, proficiency: skillToAsk.proficiency + 1 }, accessToken }).unwrap();
+                storeQuestions({ skillToAsk: { skill: skillToAsk.skill, proficiency: skillToAsk.proficiency - 1 }, accessToken }).unwrap();
             } catch (err) {
                 setIsQuestionsSection(false);
                 console.log(err);
@@ -167,14 +169,14 @@ const PracticePage = () => {
                             :
 
                             <>
-                                <div className="w-full">
+                                <div className="w-full min-h-full">
                                     <h2 className="text-3xl mb-6 text-center select-none">What do you want to practice?</h2>
 
                                     <div className={`w-full flex justify-center items-center`}>
                                         <GreenButton text="Choose Randomly" onclick={handleSetRandomSkill} />
                                     </div>
 
-                                    <div className="w-[95%] mx-auto p-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                    <div className="w-[95%] mx-auto py-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                         {skills.map((item, index) => (
                                             <div key={index} onClick={() => setSkillToAsk({ skill: item.name, proficiency: item.proficiency })} className={`p-4 rounded-xl shadow-md hover:shadow-lg transition ${contentBackgroundColor[themeMode]}`}>
                                                 <h2 className="font-semibold text-lg cursor-default">{item.name}</h2>
@@ -195,7 +197,7 @@ const PracticePage = () => {
                             </div>
                             :
                             <>
-                                <div className="flex justify-end items-center mt-6 mr-[7%] lg:mr-20">
+                                <div className="w-full flex justify-end items-center mt-6 pr-[7%] lg:pr-20">
                                     <GreenButton text="Exit Questions" onclick={goBackToSkillList} />
                                 </div>
 

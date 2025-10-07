@@ -62,9 +62,9 @@ class GetQuestionsAPIView(APIView):
             try:
                 print("calling LLM to generate remaining questions")
                 ai_questions = generate_question(skill_name, proficiency)
-            except Exception:
+            except Exception as e:
                 if os.environ.get("DEBUG_MODE") == 'true':
-                    print("AI question generating error", Exception)
+                    print("AI question generating error", e)
                 return Response(
                     {"error": "Error generating questions, please try again."},
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR,
