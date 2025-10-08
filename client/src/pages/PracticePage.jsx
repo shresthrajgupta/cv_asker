@@ -106,8 +106,12 @@ const PracticePage = () => {
                     toast.error("Error generating questions", { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } });
                 }
 
-                storeQuestions({ skillToAsk: { skill: skillToAsk.skill, proficiency: skillToAsk.proficiency + 1 }, accessToken }).unwrap();
-                storeQuestions({ skillToAsk: { skill: skillToAsk.skill, proficiency: skillToAsk.proficiency - 1 }, accessToken }).unwrap();
+                if (skillToAsk.proficiency < 10) {
+                    storeQuestions({ skillToAsk: { skill: skillToAsk.skill, proficiency: skillToAsk.proficiency + 1 }, accessToken }).unwrap();
+                }
+                if (skillToAsk.proficiency > 1) {
+                    storeQuestions({ skillToAsk: { skill: skillToAsk.skill, proficiency: skillToAsk.proficiency - 1 }, accessToken }).unwrap();
+                }
             } catch (err) {
                 setIsQuestionsSection(false);
                 console.log(err);

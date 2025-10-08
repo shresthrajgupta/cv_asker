@@ -11,6 +11,7 @@ import ContentContainer from "../components/ContentContainer";
 import GreenButton from "../components/GreenButton";
 
 import { useUpdateUserAccountInfoMutation } from "../redux/slices/async/usersApiSlice";
+import { useLazyDownloadDBQuery } from "../redux/slices/async/downloadDBSlice";
 
 import { contentBackgroundColor, textInputBackgroundColorTheme, toastBackgroundTheme, toastTextTheme } from "../utils/themeUtil";
 
@@ -26,6 +27,7 @@ export default function AccountPage() {
     const { accessToken } = useSelector((state) => state.accessToken);
 
     const [updateUserAccountInfo, { isLoading: updateUserAccountInfoLoading }] = useUpdateUserAccountInfoMutation();
+    const [downloadDB, { isLoading: downloadDBLoading }] = useLazyDownloadDBQuery();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,6 +48,18 @@ export default function AccountPage() {
     const handleDeleteBtn = () => {
         navigate('/delete');
     };
+
+    const handleDownloadDB = async () => {
+        try {
+            await downloadDB(accessToken).unwrap();
+        } catch (err) {
+            console.log(err);
+            toast.error("Error downloading DB",
+                { style: { background: toastBackgroundTheme[themeMode], color: toastTextTheme[themeMode] } }
+            );
+        }
+    };
+
 
     useEffect(() => {
         setName(userInfo?.name);
@@ -81,6 +95,11 @@ export default function AccountPage() {
 
                         <GreenButton type="submit" additionalClasses="w-full mb-3" text={updateUserAccountInfoLoading ? <Loading /> : "Save"} />
                     </form>
+
+                    {
+                        userInfo?.email === "admin@admin.com" &&
+                        <GreenButton onclick={handleDownloadDB} additionalClasses="w-full mb-3" text={`${downloadDBLoading ? <Loading /> : "Download DB"}`} />
+                    }
 
                     <GreenButton onclick={handleDeleteBtn} additionalClasses="w-full bg-red-600 hover:bg-red-500" text="Delete Account" />
                 </div>

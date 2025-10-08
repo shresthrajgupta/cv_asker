@@ -52,8 +52,22 @@ class GetQuestionsAPIView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        skill_obj = get_object_or_404(Skill, name=skill_name, proficiency=proficiency)
-        user = request.user
+        if(proficiency < 1 or proficiency > 10):
+            return Response(
+                {"error": "Invalid proficiency"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            skill_obj, created = Skill.objects.get_or_create(name=skill_name, proficiency=proficiency)
+            user = request.user
+        except Exception as e:
+            if os.environ.get("DEBUG_MODE") == 'true':
+                print("Error getting skills", e)
+            return Response(
+                {"error": "Internal server error, please try again later."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
         eligible_questions = get_askable_questions(user, skill_obj, proficiency, limit=10)
 

@@ -11,6 +11,7 @@ from .views import AnswerQuestionAPIView
 from .views import GetQuestionsAPIView
 from .views import CookieTokenRefreshView
 from .views import CustomTokenDeleteView
+from .views import DownloadDatabaseView
 
 # fmt: off
 urlpatterns = [
@@ -21,8 +22,9 @@ urlpatterns = [
     path('upload/', PDFUploadView.as_view()),
     path("profile/", UserProfileCreateView.as_view()),
     path("profile/proficiency", UpdateSkillProficiencyAPIView.as_view()),
-    path("question/store", GenerateQuestionsView.as_view()),
+    path("question/store/", GenerateQuestionsView.as_view()),
     path("history/update", AnswerQuestionAPIView.as_view()),
     path("question/fetch", GetQuestionsAPIView.as_view()),
     path("logout/", CustomTokenDeleteView.as_view()),
+    path("admin/download_db/", DownloadDatabaseView.as_view()),
 ]

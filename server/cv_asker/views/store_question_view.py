@@ -1,3 +1,4 @@
+import os
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,14 +20,36 @@ class GenerateQuestionsView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        skill_obj = get_object_or_404(Skill, name=skill, proficiency=proficiency)
-        if not skill_obj:
-            return Response({"error": "skill not found in db"})
+        if(proficiency < 1 or proficiency > 10):
+            return Response(
+                {"error": "Invalid proficiency"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # skill_obj = get_object_or_404(Skill, name=skill, proficiency=proficiency)
+        # if not skill_obj:
+        #     return Response({"error": "skill not found in db"})
 
         try:
+            skill_obj, created = Skill.objects.get_or_create(name=skill, proficiency=proficiency)
+        except Exception as e:
+            if os.environ.get("DEBUG_MODE") == 'true':
+                print("Error getting skills", e)
+            return Response(
+                {"error": "Internal server error, please try again later."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+        try:
+            print("calling LLM to generate remaining questions")
             ai_questions = generate_question(skill, proficiency)
         except Exception as e:
-            return Response({"error": "error generating questions, please try again"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            if os.environ.get("DEBUG_MODE") == 'true':
+                print("AI question generating error", e)
+            return Response(
+                {"error": "error generating questions, please try again"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
         # created_objs = []
 
